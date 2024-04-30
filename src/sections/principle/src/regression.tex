@@ -1,0 +1,149 @@
+\subsection{最小二乗法(単回帰)}
+
+ある2変数$x,y$が与えられ、これらの間に比例関係
+\begin{equation}\label{eq:linear}
+	y = ax + b
+\end{equation}
+という関係があると予想されるとする。
+実験などでは$x,y$に誤差が含まれ全ての$x,y$が\ref{eq:linear}式を満たすような係数$a,b$は存在しない。
+このようなとき、しばしば最小二乗法によって係数$a,b$を求める。
+最小二乗法は、$n$個のデータ点$(x_i,y_i)$が与えられたとき、
+実際の値$y_i$と予測値$ax_i+b$の差の二乗和が最小となるような係数$a,b$を求める方法である。
+すなわち、二乗和
+\begin{equation}\label{eq:least-square}
+	L(a,b) = \sum_{i=1}^{n} (y_i - ax_i - b)^2
+\end{equation}
+を最小にするような係数$a,b$を求める。
+\ref{eq:least-square}式を$a,b$について偏微分し、それぞれの微分が0となるような$a,b$を求めると、
+\begin{equation}\label{eq:normal-equation}
+	\begin{split}
+		 & \pdv{L(a, b)}{a}                                                               = 0              \\
+		 & \Leftrightarrow   \left( \sum_i x_i  \right) b + \left(\sum_i x_i^2 \right) a  = \sum_i x_i y_i \\
+		 & \pdv{L(a, b)}{b}                                                                                \\
+		 & \Leftrightarrow nb + \left( \sum_i x_i \right) a = \sum_i y_i
+	\end{split}
+\end{equation}
+という連立方程式が得られ、これを正規方程式(normal equation)という。
+これを解くと、
+\begin{equation}\label{eq:regression-equation}
+	\begin{split}
+		a & = \dfrac{\left(\sum x_i\right)\left(\sum y_i\right) - n\sum x_i y_i}{\left(\sum x_i \right)^2 - n \sum x_i^2} \\
+		  & = \dfrac{n \bar{x}\bar{y} - \sum_i x_iy_i}{\bar{x}^2 - \sum x_i^2}                                            \\
+		b & = \dfrac{\sum y_i - a\sum x_i}{n}                                                                             \\
+		  & = \bar{y} - a\bar{x}
+	\end{split}
+\end{equation}
+となる。
+ここで、$\bar{x},\bar{y}$はそれぞれ$x,y$の平均値である。
+これら$a,b$による式$y=ax+b$を$y$の$x$上への回帰方程式あるいは回帰直線、$a$を偏回帰係数という。
+
+$b$と相関係数$r=\dfrac{\sum_i (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_i (x_i - \bar{x})^2 \sum_i (y_i - \bar{y})^2}}$には、
+\begin{equation}
+	b = r \dfrac{\sqrt{\sum \left(y_i - \bar{y}\right)^2}}{\sqrt{\sum \left(x_i - \bar{x}\right)^2}}
+\end{equation}
+なる関係があり、また実際の値$y_i$と予測値$\hat{y_i}$の差の二乗和について、
+\begin{equation}
+	\sum_i d_i^2 \equiv \sum_i \left(y_i - \hat{y_i}\right)^2 = \left(1 - r^2\right) \sum_i \left(y_i - \bar{y}\right)^2
+\end{equation}
+なる関係がある。
+すなわち、$r$は直線の当てはまりの良さを示す指標であり、独立変数\footnote{
+	説明変数とも呼ばれる
+}
+が$x$が、従属変数\footnote{
+	非説明変数とも呼ばれる
+}
+$y$を決定する強弱の度合いを表すため、$r^2$を決定係数と呼ばれる。
+
+\subsection{重回帰分析}
+独立変数が一つの場合を拡張し、独立変数が$x_1, x_2, \dots, x_p$と$p$個ある場合を考える。
+独立変数が一つの場合の単回帰分析に対して、複数ある場合を重回帰分析という。\footnote{
+	単回帰分析では、$x$に対して$y=a+bx$と$y$が決まる状況を考えた。
+	これは、2次元で$y$を説明するような直線を考えることになる。
+	一方、重回帰分析では、$x_1, \dots, x_p$に対して$y=b_0 + b_1x_1 + \dots + b_px_p$と$y$が決まる状況を考える。
+	すなわち、$p+1$次元において、$y$を説明するような(超)平面を考えることになる。
+}
+いま、$n$個のデータ点$(x_{i1}, x_{i2}, \dots, x_{ip}, y_i)$ $(i=1,\dots,n)$が与えられたとき、最小二乗法を考える。
+ベクトル表記を用いて、
+\begin{align}
+	\bm{y} & = \begin{pmatrix}
+		           y_1    \\
+		           y_2    \\
+		           \vdots \\
+		           y_n
+	           \end{pmatrix}                             &
+	\bm{X} & = \begin{pmatrix}
+		           1      & x_{11} & x_{12} & \dots  & x_{1p} \\
+		           1      & x_{21} & x_{22} & \dots  & x_{2p} \\
+		           \vdots & \vdots & \vdots & \ddots & \vdots \\
+		           1      & x_{n1} & x_{n2} & \dots  & x_{np}
+	           \end{pmatrix} &
+	\bm{b} & = \begin{pmatrix}
+		           b_0    \\
+		           b_1    \\
+		           b_2    \\
+		           \vdots \\
+		           b_p
+	           \end{pmatrix}
+\end{align}
+とすると、$\bm{b}$による予測値$\bm{\hat{y}}$は、
+\begin{equation}\label{eq:regression-multiple}
+	\bm{\hat{y}} = \begin{pmatrix}\hat{y_1}\\ \hat{y_2} \\ \vdots \\ \hat{y_n}\end{pmatrix} = \bm{Xb}
+\end{equation}
+とかける。
+最小にすべき二乗和は、
+\begin{equation}\label{eq:least-square-multiple}
+	\begin{split}
+		L(\bm{b}) & = \| \bm{y}  - X\bm{b} \|^2                                                                     \\
+		          & = \trans{\bm{y}} \bm{y} - 2 \trans{\bm{b}} \trans{X} \bm{y} + \trans{\bm{b}} \trans{X} X \bm{b}
+	\end{split}
+\end{equation}
+とかける。\footnote{
+	$\trans{\bm{b}}\trans{X}\bm{y}$はスカラーであるから、転置をとっても変わらない。
+	$\trans{\bm{b}}\trans{X}\bm{y} = \trans{\bm{y}}X\bm{b}$である。
+}
+求める$\bm{b}$は、$L(\bm{b})$の勾配ベクトルが$\bm{0}$となるような$\bm{b}$であるから、
+\begin{equation}\label{eq:normal-equation-multiple}
+	\begin{split}
+		\grad{L(\bm{b})} & = -2\trans{X}\bm{y} + 2\trans{X}X\bm{b} = 0 \\
+		\Leftrightarrow  & \trans{X}X\bm{b} = \trans{X}\bm{y}
+	\end{split}
+\end{equation}
+とかける。\footnote{
+	$\grad{\trans{\bm{b}}\trans{X}\bm{y}} = \trans{X}\bm{y}$、
+	$\grad{\trans{\bm{b}}\trans{X}X\bm{b}} = 2\trans{X}X\bm{b}$であることを用いた。
+	後者は二次形式と呼ばれる形である。
+}
+この解を$\bm{\hat{b}}$と書き、\ref{eq:least-square-multiple}式を最小にする$\bm{b}$である。
+
+$\bm{y}$の偏差の二乗和$S_{\bm{y}}^2$は、
+\begin{align}\label{eq:y-deviation}
+	S_{\bm{y}}^2 & = \| \bm{y} - \bm{\bar{y}} \|^2 \nonumber                                                                                                                         \\
+	             & = \trans{\left\{ (\bm{y}-\bm{\hat{y}}) + (\bm{\hat{y}} - \bm{\bar{y}}) \right\}} \left\{  (\bm{y}-\bm{\hat{y}}) + (\bm{\hat{y}} - \bm{\bar{y}})\right\} \nonumber \\
+	             & = \| \bm{\hat{y}} - \bm{\bar{y}} \|^2 + \| \bm{y} - \bm{\hat{y}}^2 \|
+\end{align}
+とかける。
+ここで、\ref{eq:normal-equation-multiple}式を変形し、\ref{eq:regression-multiple}式を代入すると
+\begin{equation}
+	\begin{split}
+		 & \trans{X} \left( \bm{y} - X\bm{b} \right) = \trans{X} \left( \bm{y} - \bm{\hat{y}} \right) = 0 \\
+		 & \Leftrightarrow \trans{\bm{b}}\trans{X} \left( \bm{y} - \bm{\hat{y}} \right) = 0               \\
+		 & \Leftrightarrow \trans{\bm{\hat{y}}} \left( \bm{y} - \bm{\hat{y}} \right) = 0                  \\
+	\end{split}
+\end{equation}
+となることと、\ref{eq:regression-multiple}式で第一列に注目すると、
+\begin{equation}
+	\begin{split}
+		 & \begin{bmatrix}1 & 1 & \dots & 1 \end{bmatrix}
+		(\bm{y} - \bm{\hat{y}}) = 0                                         \\
+		 & \Leftrightarrow \trans{\bm{\bar{y}}} (\bm{y} - \bm{\hat{y}}) = 0
+	\end{split}
+\end{equation}
+となることを用いた。
+\ref{eq:y-deviation}式は、$S_{\bm{y}}^2$が前半部分の$X$による部分と後半部分の$X$で説明されない部分に分かれ、$S_{\bm{y}}^2 = S_{\bm{\hat{y}}^2} + L(\bm{b})$と書ける。
+そして、この$X$によって説明される部分の割合を決定係数と呼び、
+\begin{align}
+	R^2 & = \dfrac{S_{\bm{\hat{y}}}^2}{S_{\bm{y}}^2} = \dfrac{\| \bm{\hat{y}} - \bm{\bar{y}} \|^2}{\| \bm{y} - \bm{\bar{y}} \|^2} \\
+	    & = \dfrac{S_{\bm{y}}^2  - L(\bm{b})}{S_{\bm{y}}^2} \nonumber                                                             \\
+	    & = 1 - \dfrac{L(\bm{b})}{S_{\bm{y}}^2}
+\end{align}
+と定義される。

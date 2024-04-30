@@ -14,6 +14,11 @@ clean:
 	@find . -type f -name "*.bak*" -exec rm {} +
 	@find . -type f -name "indent.log" -exec rm {} +
 
+.PHONY: clean-all
+clean-all: clean
+	@make clean
+	@latexmk -c -outdir=./build
+
 .PHONY: prod
 prod:
 	@echo "Building production version..."

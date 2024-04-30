@@ -11,14 +11,10 @@
   "files.insertFinalNewline": true,
   // TeX Configs
   "[tex]": {
-    "editor.defaultFormatter": "James-Yu.latex-workshop",
-    "editor.wordWrap": "on",
-    "editor.wrappingIndent": "indent"
+    "editor.defaultFormatter": "James-Yu.latex-workshop"
   },
   "[latex]": {
-    "editor.defaultFormatter": "James-Yu.latex-workshop",
-    "editor.wordWrap": "on",
-    "editor.wrappingIndent": "indent"
+    "editor.defaultFormatter": "James-Yu.latex-workshop"
   },
   "latex-workshop.latex.recipe.default": "lualatex",
   "latex-workshop.bibtex-format.sort.enabled": true,

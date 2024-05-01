@@ -131,19 +131,22 @@ $\bm{y}$の偏差の二乗和$S_{\bm{y}}^2$は、
 	\end{split}
 \end{equation}
 となることと、\ref{eq:regression-multiple}式で第一列に注目すると、
-\begin{equation}
+\begin{equation}\label{eq:regression-mean}
 	\begin{split}
 		 & \begin{bmatrix}1 & 1 & \dots & 1 \end{bmatrix}
 		(\bm{y} - \bm{\hat{y}}) = 0                                         \\
 		 & \Leftrightarrow \trans{\bm{\bar{y}}} (\bm{y} - \bm{\hat{y}}) = 0
 	\end{split}
 \end{equation}
-となることを用いた。
+となることを用いた。\footnote{
+	この両辺をデータの個数$n$で割ることで、$\bar{\bm{y}}$と$\bar{\bm{\hat{y}}}$が一致することがわかる。
+}
 \ref{eq:y-deviation}式は、$S_{\bm{y}}^2$が前半部分の$X$による部分と後半部分の$X$で説明されない部分に分かれ、$S_{\bm{y}}^2 = S_{\bm{\hat{y}}^2} + L(\bm{b})$と書ける。
 そして、この$X$によって説明される部分の割合を決定係数と呼び、
-\begin{align}
+\begin{align}\label{eq:coefficent-determination}
 	R^2 & = \dfrac{S_{\bm{\hat{y}}}^2}{S_{\bm{y}}^2} = \dfrac{\| \bm{\hat{y}} - \bm{\bar{y}} \|^2}{\| \bm{y} - \bm{\bar{y}} \|^2} \\
 	    & = \dfrac{S_{\bm{y}}^2  - L(\bm{b})}{S_{\bm{y}}^2} \nonumber                                                             \\
 	    & = 1 - \dfrac{L(\bm{b})}{S_{\bm{y}}^2}
 \end{align}
 と定義される。
+さらに、$\sqrt{R^2}=R$を重相関係数と呼ぶ。

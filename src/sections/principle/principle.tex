@@ -8,6 +8,54 @@
 \clearpage
 \input{src/sections/principle/src/random.tex}
 
+\subsubsection{中心極限定理}
+中心極限定理とは、独立な確率変数$X_1, X_2, \ldots, X_n$が同一の分布に従うとき、
+その和$S_n = X_1 + X_2 + \cdots + X_n$は$n$が大きくなるにつれて正規分布に近づくという定理である。
+
+まず特性関数を定義する。ある確率変数$X$の特性関数$\varphi(t)$は、
+\begin{equation}
+    \begin{split}
+        \varphi(t) & = \mathrm{E}[e^{itX}]                     \\
+                   & = \int_{-\infty}^{\infty} e^{itx} f(x) dx
+    \end{split}
+\end{equation}
+で定義される。
+これは、$f(x)$の逆フーリエ変換で、その逆変換
+\begin{equation}
+    f(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{-itx} \varphi(t) dt
+\end{equation}
+が存在する。\footnote{
+    つまり、$\varphi(x)$がもとまれば、$f(x)$がもとまることになる。
+}
+$X$が正規分布$\mathcal{N}(0, \sigma^2)$に従うとき、
+\begin{equation}\label{eq:standard-normal-characteristic-function}
+    \varphi(t) = e^{-\frac{\sigma^2t}{2}}
+\end{equation}
+
+さて、$X_1, X_2, \ldots, X_n$が独立で同一の分布に従うとき、
+\begin{equation}
+    T_N = \dfrac{1}{\sqrt{n}} \sum_{i=1}^{n} (x_i - \bar{x})
+\end{equation}
+とおくと、$T_N$の特性関数は
+\begin{align*}
+    \varphi_{T_N}(t) & = \mathrm{E}\left[e^{itT_N}\right]                                                                                                                  \\
+                     & = \prod_i \mathrm{E}\left[\exp{it\dfrac{1}{\sqrt{N}}(x_i - \bar{x})}\right]                                                                         \\
+                     & = \left\{\mathrm{E}\left[\exp\left(it\dfrac{1}{\sqrt{N}}\left(x_i - \bar{x}\right)\right)\right]\right\}^n                                          \\
+                     & = \left[1 + \dfrac{it}{\sqrt{N}} \mathrm{E}(x - \bar{x}) - \dfrac{t^2}{2N} \mathrm{E}(x - \bar{x})^2 + O\left(\dfrac{1}{N\sqrt{N}}\right) \right]^N \\
+                     & = \left[1 - \dfrac{t^2}{2N}\mathrm{V}(X) + o\left(\dfrac{1}{N\sqrt{N}}\right)\right]^N
+\end{align*}
+となる。
+ただし、$\mathrm{E}(x - \bar{x}) = 0$、$\mathrm{V}(X) = \mathrm{E}(x - \bar{x})^2$である。
+$N$が十分大きい時、
+\begin{align}
+    \varphi_{T_N}(t) & = \left( 1 - \dfrac{t^2}{2n}\mathrm{V}(X) \right)^n \nonumber \\
+                     & = e^{-\dfrac{t^2}{2}\mathrm{V}(X)}
+\end{align}
+これは上記の正規分布の特性関数\ref{eq:standard-normal-characteristic-function}式と一致し、
+$T_N$は$\mathcal{N}(0, \mathrm{V}(X))$正規分布に従うことがわかる。
+これを中心極限定理という。
+
+
 \clearpage
 \input{src/sections/principle/src/regression.tex}
 

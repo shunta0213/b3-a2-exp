@@ -15,7 +15,8 @@
         "taichi.vscode-textlint",
         "GitHub.copilot",
         "christian-kohler.path-intellisense",
-        "ms-vscode.makefile-tools"
+        "ms-vscode.makefile-tools",
+        "streetsidesoftware.code-spell-checker"
       ]
     }
   },

@@ -1,0 +1,24 @@
+
+\begin{longtable}{|c|c|c|c|}
+	\caption{乱数生成法のベンチマーク}\label{tab:random-bench}    \\
+	\hline
+	生成法         & 生成数       & 時間 / ns/op & メモリ / B/op \\
+	\hline
+	\endfirsthead
+
+	\hline
+	生成法         & 生成数       & 時間 / ns/op & メモリ / B/op \\
+	\hline
+	\endhead
+
+	\hline
+	\endfoot
+
+	\hline
+	\endlastfoot
+
+	math/rand   & 384210751 & 9.342      & 0          \\
+	crypto/rand & 6548737   & 554.5      & 56         \\
+	lcg         & 565856049 & 6.321      & 0          \\
+	msm         & 39674995  & 84.90      & 16         \\
+\end{longtable}

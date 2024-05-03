@@ -105,6 +105,72 @@ $n$を増加させていけば、決定係数が1に近づいていく。
 今回はデータ数が少ないため、そこまでは行わない。
 \input{src/tables/poly-nominal-data.tex}
 
-\subsubsection{なんかしら別のデータで重回帰分析を行う}
+\subsubsection{NBA2022-2023シーズンにおける重回帰分析}
+NBA(National Basketball Association)の2022-2023シーズンにおける選手のスタッツのデータを用いて重回帰分析を行う。
+データは、Vivo Vinco氏のKaggleのデータセットを用いる。\footnote{
+	\url{https://www.kaggle.com/datasets/vivovinco/20222023-nba-player-stats-regular}.
+	CC-BY 4.0 ライセンス
+}
+以下の情報を含む。 Rk,
+Player, Pos, Age, Tm, G, GS, MP, FG, FGA, FG\%, 3P, 3PA, 3P\%, 2P, 2PA, 2P\%, eFG\%, FT, FTA, FT\%, ORB, DRB, TRB, AST, STL, BLK, TOV, PF, PTS, TRB, AST, STL, BLK, TOV, PF, PTS
+\footnote{
+	Rk : Rank,
+	Player : Player's name,
+	Pos : Position,
+	Age : Player's age,
+	Tm : Team,
+	G : Games played,
+	GS : Games started,
+	MP : Minutes played per game,
+	FG : Field goals per game,
+	FGA : Field goal attempts per game,
+	FG\% : Field goal percentage,
+	3P : 3-point field goals per game,
+	3PA : 3-point field goal attempts per game,
+	3P\% : 3-point field goal percentage,
+	2P : 2-point field goals per game,
+	2PA : 2-point field goal attempts per game,
+	2P\% : 2-point field goal percentage, ,
+	eFG\% : Effective field goal percentage,
+	FT : Free throws per game,
+	FTA : Free throw attempts per game,
+	FT\% : Free throw percentage,
+	ORB : Offensive rebounds per game,
+	DRB : Defensive rebounds per game,
+	TRB : Total rebounds per game,
+	AST : Assists per game,
+	STL : Steals per game,
+	BLK : Blocks per game,
+	TOV : Turnovers per game,
+	PF : Personal fouls per game,
+	PTS : Points per gameTRB : Total rebounds per game,
+	AST : Assists per game,
+	STL : Steals per game,
+	BLK : Blocks per game,
+	TOV : Turnovers per game,
+	PF : Personal fouls per game,
+	PTS : Points per game
+}
+これらのデータの中から、まず
+Age, Pos, MP, FG, FGA, FG\%, 3P, 3PA, 3P\%, FT, FTA, FT\%を説明変数とし、
+PTSを目的変数として重回帰分析を行う。
+今回は学習データとテストデータをわけ、学習データでモデルを構築し、テストデータでモデルの性能を評価する。
+決定係数は$0.9998950394227705$となり非常に高い精度で予測ができていることがわかる。
+予測した値と実際の値の比較を図\ref{fig:actual-vs-predicted-PTS}に示す。
+シュートに関するほぼ全ての統計量を説明変数とし、
+得点を目的変数としているからのかなり高い精度で予測できたと考えられる。
+\input{src/figures/nba-regression/actual-vs-predicted-PTS.tex}
+
+一方で、MP, Age, STL, BLKを説明変数としPTSを目的変数とすると、
+決定係数は$0.787534156007302$となり上記の場合に比べて低くなっている。
+これは、FGに関する情報、FTに関する情報などを説明変数とせず、PTSに直接関係のないような
+AgeやMP、STL、BLKを説明変数としているためであると考えられる。
+\input{src/figures/nba-regression/actual-vs-predicted-PTS-2.tex}
+
+PTS以外の全ての統計量を説明変数としPTSを目的変数とすると、決定係数は$0.999872848991546$となりはじめの場合に比べてやや高くなっている。
+一方で、得点を説明するのはAge, Pos, MP, FG, FGA, FG\%, 3P, 3PA, 3P\%, FT, FTA, FT\%などで十分と考えられ、
+それ以外の統計量はただ不要なパラメータを増やし計算量を増やすだけである。
+したがって、上記のように目的変数に対してどういう説明変数が関連しているか適切に判断し選択することが大事である。
+
 
 \end{document}
